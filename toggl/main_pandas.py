@@ -22,6 +22,18 @@ def get_last_week(df: pd.DataFrame):
 
 
 def get_group_durations(df: pd.DataFrame, group_name: str):
+	# mi = pd.MultiIndex.from_frame(df, column=['client', 'project'])
+	column_values = df[['client', 'project', 'description']]
+	# unique_values = pd.unique(column_values)
+	# print(column_values)
+
+	index = pd.MultiIndex.from_frame(column_values)
+	s = pd.Series(0, index=index)
+	print(s)
+
+	# for e in index:
+	# 	print(e)
+
 	# grouped = df.groupby(['end_date', group_name])
 	date_group = df.groupby('start_date')
 	week = pd.DataFrame()
@@ -47,12 +59,12 @@ def get_group_durations(df: pd.DataFrame, group_name: str):
 		week.loc['total', col] = sum(week[col])
 
 	# create df with percentages
-	week_percentages = week.copy()
-	week_percentages.drop('day_total', axis=1, inplace=True)
-	for col in week_percentages.columns:
-		week_percentages[col] = round(week[col] / week["day_total"] * 100, 2)
+	# week_percentages = week.copy()
+	# week_percentages.drop('day_total', axis=1, inplace=True)
+	# for col in week_percentages.columns:
+	# 	week_percentages[col] = round(week[col] / week["day_total"] * 100, 2)
 
-	return week, week_percentages
+	return week#, week_percentages
 
 
 def main():
